@@ -93,4 +93,18 @@ const signin = async (req, res) => {
     }
 };
 
-module.exports = { signup, signin };
+const userlist = async (req, res) => {
+    const Status = StatusCode();
+    try {
+        console.log('Searching for users with email:', req.email);
+        // Get users list
+        const users = await userModel.find();
+        // Send user list data
+        res.status(Status.success).json({ users });
+    } catch (error) {
+        console.log(error);
+        res.status(Status.serverrr).json({ Message: "Something went wrong" });
+    }
+}
+
+module.exports = { signup, signin, userlist };
