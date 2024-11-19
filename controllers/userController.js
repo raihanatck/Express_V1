@@ -52,6 +52,8 @@ const signup = async (req, res) => {
         // Token generate
         const token = jwt.sign({ email: result.email, id: result.id }, SECRET_KEY);
         // console.log("Signup token: ",token);
+        result.token = token;
+        result.save();
 
         // Send response
         res.status(Status.success).json({ user: result, token: token });
