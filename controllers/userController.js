@@ -76,17 +76,19 @@ const signin = async (req, res) => {
         }
 
         // Compare password with DB
-        const MatchPassword = existingUser.password;
+        // const MatchPassword = existingUser.password; 
+        // if (!MatchPassword) {
+        //     res.status(Status.validation).json({ Message: "Invalid Credentials" });
+        // } // It's not working
 
-        if (!MatchPassword) {
-            res.status(Status.validation).json({ Message: "Invalid Credentials" });
+        if (existingUser.user !== password) {
+            res.status(Status.validation).json({Message : "You have entered invalid password"})
         }
 
         // Geneerate token
         const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY);
         // Send response
         res.status(Status.success).json({ user: existingUser, token: token });
-
 
 
     } catch (error) {
