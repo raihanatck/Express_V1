@@ -101,7 +101,8 @@ const userlist = async (req, res) => {
     const Status = StatusCode();
     try {
         // Get users list
-        const users = await userModel.find();
+        const users = await userModel.find({}, 'username email password');
+        // console.log(users);
         // Send user list data
         res.status(Status.success).json({ users });
     } catch (error) {
