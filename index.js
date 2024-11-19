@@ -13,17 +13,6 @@ app.get("/", (req, res) => {
   res.send("Hii");
 });
 
-// app.get("/quote",(req,res)=>{
-//     // res.send("Quote");
-//     res.status(200).json(quotes);
-// });
-
-// app.get("/random",(req,res)=>{
-//     let index = Math.floor(Math.random() * quotes.length)
-//     let quote = quotes[index];
-//     res.status(200).json(quote);
-// });
-
 mongoose.connect(
   "mongodb+srv://admin:admin@cluster0.vpesn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 ).then(()=>{
