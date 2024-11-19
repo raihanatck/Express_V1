@@ -9,9 +9,9 @@ app.use(express.json());
 app.use("/users", userRouter);
 app.use("/note", noteRouter);
 
-app.get("/", (req, res) => {
-  res.send("Hii");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hii");
+// });
 
 mongoose.connect(
   "mongodb+srv://admin:admin@cluster0.vpesn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"

@@ -3,23 +3,39 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const user = require("../models/user");
 const { default: mongoose } = require("mongoose");
-const e = require("express");
+const express = require("express");
 const SECRET_KEY = "NOTESAPI";
+
+function StatusCode() {
+    return {
+        success : 200,
+        serverrr : 500,
+        validation : 404
+    };
+}
 
 const signup = async (req, res) => {
 
-    const { username, email, password } = req.body; 
+    const { username, email, password } = req.body;
+    const Status = StatusCode();
     try {
 
         // Validation message
-        if (!username || !email || !password) {
-            res.status(400).json({ Message: "Field is required" });
+        // if (!username || !email || !password) {
+        //     res.status(400).json({ Message: username, email, password, "Field is required" });
+        // }
+        if (!username) {
+            res.status(Status.validation).json({ Message: "Username is required" });
+        }else if (!email) {
+            res.status(Status.validation).json({Message: "Email is required"});
+        }else if(!password){
+            res.status(Status.validation).json({Message:"Password is required"});
         }
 
         // Existing user check
         const existingUser = await userModel.findOne({ email: email })
         if (existingUser) {
-            return res.status(400).json({ Message: "User already exist" });
+            return res.status(Status.validation).json({ Message: "User already exist" });
         }
 
 
@@ -38,41 +54,42 @@ const signup = async (req, res) => {
         // console.log("Signup token: ",token);
 
         // Send response
-        res.status(201).json({ user: result, token: token });
+        res.status(Status.success).json({ user: result, token: token });
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Message: "Something went wrong" });
+        res.status(Status.serverrr).json({ Message: "Something went wrong" });
 
     }
 };
 
 const signin = async (req, res) => {
     const { email, password } = req.body;
+    const Status = StatusCode();
     try {
         // Check user is existing 
         const existingUser = await userModel.findOne({ email: email });
         if (!existingUser) {
-            res.status(404).json({ Message: "User not found" });
+            res.status(Status.validation).json({ Message: "User not found" });
         }
 
         // Compare password with DB
         const MatchPassword = existingUser.password;
 
         if (!MatchPassword) {
-            res.status(404).json({ Message: "Invalid Credentials" });
+            res.status(Status.validation).json({ Message: "Invalid Credentials" });
         }
 
         // Geneerate token
         const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY);
         // Send response
-        res.status(200).json({ user: existingUser, token : token});
+        res.status(Status.success).json({ user: existingUser, token: token });
 
 
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Message: "Something went wrong" });
+        res.status(Status.serverrr).json({ Message: "Something went wrong" });
     }
 };
 
