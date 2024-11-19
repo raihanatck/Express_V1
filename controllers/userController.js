@@ -96,7 +96,7 @@ const signin = async (req, res) => {
 const userlist = async (req, res) => {
     const Status = StatusCode();
     try {
-        // console.log('Searching for users with email:', req.email);
+        console.log('Searching for users with email:', req.email);
         // Get users list
         const users = await userModel.find();
         // Send user list data
