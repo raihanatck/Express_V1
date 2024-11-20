@@ -25,11 +25,11 @@ const signup = async (req, res) => {
         //     res.status(400).json({ Message: username, email, password, "Field is required" });
         // }
         if (!username) {
-            res.status(Status.validation).json({ Message: "Username is required" });
+            return res.status(Status.validation).json({ Message: "Username is required" });
         }else if (!email) {
-            res.status(Status.validation).json({Message: "Email is required"});
+            return res.status(Status.validation).json({Message: "Email is required"});
         }else if(!password){
-            res.status(Status.validation).json({Message:"Password is required"});
+            return res.status(Status.validation).json({Message:"Password is required"});
         }
 
         // Existing user check
@@ -56,11 +56,11 @@ const signup = async (req, res) => {
         result.save();
 
         // Send response
-        res.status(Status.success).json({ user: result, token: token });
+        return res.status(Status.success).json({ user: result, token: token });
 
     } catch (error) {
         console.log(error);
-        res.status(Status.serverrr).json({ Message: "Something went wrong" });
+        return res.status(Status.serverrr).json({ Message: "Something went wrong" });
 
     }
 };
@@ -72,7 +72,7 @@ const signin = async (req, res) => {
         // Check user is existing 
         const existingUser = await userModel.findOne({ email: email });
         if (!existingUser) {
-            res.status(Status.validation).json({ Message: "User not found" });
+            return res.status(Status.validation).json({ Message: "User not found" });
         }
 
         // Compare password with DB
@@ -82,7 +82,7 @@ const signin = async (req, res) => {
         // } // It's not working
 
         if (existingUser.password !== password) {
-            res.status(Status.validation).json({Message : "You have entered invalid password"})
+            return res.status(Status.validation).json({Message : "You have entered invalid password"})
         }
 
         // if above method is not work
@@ -93,12 +93,12 @@ const signin = async (req, res) => {
         // Geneerate token
         const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY);
         // Send response
-        res.status(Status.success).json({ user: existingUser, token: token });
+        return res.status(Status.success).json({ user: existingUser, token: token });
 
 
     } catch (error) {
         console.log(error);
-        res.status(Status.serverrr).json({ Message: "Something went wrong" });
+        return res.status(Status.serverrr).json({ Message: "Something went wrong" });
     }
 };
 
