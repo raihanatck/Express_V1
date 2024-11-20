@@ -81,9 +81,14 @@ const signin = async (req, res) => {
         //     res.status(Status.validation).json({ Message: "Invalid Credentials" });
         // } // It's not working
 
-        if (existingUser.user !== password) {
+        if (existingUser.password !== password) {
             res.status(Status.validation).json({Message : "You have entered invalid password"})
         }
+
+        // if above method is not work
+        // if (String(existingUser.password).trim() !== String(password).trim()) {
+        //     return res.status(Status.validation).json({ Message: "You have entered an invalid password" });
+        // }
 
         // Geneerate token
         const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY);
