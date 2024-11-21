@@ -21,7 +21,7 @@ const signup = async (req, res) => {
     try {
 
         // Validation message
-        if (!username.trim()) {
+        if (!username) {
             return res.status(Status.validation).json({ Message: "Username is required" });
         }
 
@@ -30,7 +30,7 @@ const signup = async (req, res) => {
             return res.status(404).json({Message:"Please enter valid email"});
         }
         
-        if(!password.trim()){
+        if(!password){
             return res.status(Status.validation).json({Message:"Password is required"});
         }
 
