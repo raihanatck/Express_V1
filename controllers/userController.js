@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const user = require("../models/user");
 const { default: mongoose } = require("mongoose");
 const express = require("express");
-const SECRET_KEY = "NOTESAPI";
+const SECRET_KEY = "CONTACTAPI";
 
 function StatusCode() {
     return {
@@ -21,14 +21,17 @@ const signup = async (req, res) => {
     try {
 
         // Validation message
-        // if (!username || !email || !password) {
-        //     res.status(400).json({ Message: username, email, password, "Field is required" });
-        // }
-        if (!username) {
+        if (!username.trim()) {
             return res.status(Status.validation).json({ Message: "Username is required" });
-        }else if (!email) {
+        }
+        if (!email.trim()) {
             return res.status(Status.validation).json({Message: "Email is required"});
-        }else if(!password){
+        }
+        emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if(!email.match(emailpattern)){
+            return res.status(404).json({Message:"Please enter valid email"});
+        }
+        if(!password.trim()){
             return res.status(Status.validation).json({Message:"Password is required"});
         }
 
@@ -37,7 +40,6 @@ const signup = async (req, res) => {
         if (existingUser) {
             return res.status(Status.validation).json({ Message: "User already exist" });
         }
-
 
         // Hashed password
         // const hashedPassword = await bcrypt.hash(password, 10);
@@ -76,11 +78,6 @@ const signin = async (req, res) => {
         }
 
         // Compare password with DB
-        // const MatchPassword = existingUser.password; 
-        // if (!MatchPassword) {
-        //     res.status(Status.validation).json({ Message: "Invalid Credentials" });
-        // } // It's not working
-
         if (existingUser.password !== password) {
             return res.status(Status.validation).json({Message : "You have entered invalid password"})
         }
@@ -109,10 +106,10 @@ const userlist = async (req, res) => {
         const users = await userModel.find({}, 'username email password');
         // console.log(users);
         // Send user list data
-        res.status(Status.success).json({ users });
+        return res.status(Status.success).json({ users });
     } catch (error) {
         console.log(error);
-        res.status(Status.serverrr).json({ Message: "Something went wrong" });
+        return res.status(Status.serverrr).json({ Message: "Something went wrong" });
     }
 }
 
