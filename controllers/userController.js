@@ -24,13 +24,12 @@ const signup = async (req, res) => {
         if (!username.trim()) {
             return res.status(Status.validation).json({ Message: "Username is required" });
         }
-        if (!email.trim()) {
-            return res.status(Status.validation).json({Message: "Email is required"});
-        }
+
         emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if(!email.match(emailpattern)){
             return res.status(404).json({Message:"Please enter valid email"});
         }
+        
         if(!password.trim()){
             return res.status(Status.validation).json({Message:"Password is required"});
         }
