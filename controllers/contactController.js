@@ -59,7 +59,7 @@ const DeleteContact =  (req,res)=>{
 }
 const GetContact = async (req,res)=>{
     try {
-        const notes = await ContactUsModel.find({},'title companyname contractyear managername number email description');
+        const notes = await ContactUsModel.find({userId : req.userId});
         return res.status(201).json({notes});
     } catch (error) {
         console.log(error);

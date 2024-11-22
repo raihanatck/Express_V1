@@ -98,18 +98,18 @@ const signin = async (req, res) => {
     }
 };
 
-const userlist = async (req, res) => {
-    const Status = StatusCode();
-    try {
-        // Get users list
-        const users = await userModel.find({}, 'username email password');
-        // console.log(users);
-        // Send user list data
-        return res.status(Status.success).json({ users });
-    } catch (error) {
-        console.log(error);
-        return res.status(Status.serverrr).json({ Message: "Something went wrong" });
-    }
-}
+// const userlist = async (req, res) => {
+//     const Status = StatusCode();
+//     try {
+//         // Get users list
+//         const users = await userModel.find({}, 'username email password');
+//         // console.log(users);
+//         // Send user list data
+//         return res.status(Status.success).json({ users });
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(Status.serverrr).json({ Message: "Something went wrong" });
+//     }
+// }
 
-module.exports = { signup, signin, userlist };
+module.exports = { signup, signin };
