@@ -5,6 +5,7 @@ app.use(cors());
 const userRouter = require("./routes/userRoutes");
 const contactRouter = require("./routes/contractRoutes");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 
 app.use(express.json());
@@ -16,14 +17,14 @@ app.use("/users", userRouter);
 app.use("/contract", contactRouter);
 
 
-
+const PORT = process.env.PORT;
 mongoose.connect(
-  "mongodb+srv://admin:admin@cluster0.vpesn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  process.env.DB_CONNECTION
   
 ).then(()=>{
     
     console.log("MongoDB is connected");
-    app.listen(5000, () => {
+    app.listen(PORT, () => {
         console.log("Server started on this port 5000");
     });
 

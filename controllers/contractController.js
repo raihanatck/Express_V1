@@ -55,17 +55,17 @@ const EditContract = async (req, res) => {
     const { title, companyname, contractyear, managername, number, email, description } = req.body;
     try {
         const newContract = {
-            title: title,
-            companyname: companyname,
-            contractyear: contractyear,
-            managername: managername,
-            number: number,
-            email: email,
-            description: description,
+            title,
+            companyname,
+            contractyear,
+            managername,
+            number,
+            email,
+            description,
             userId: req.userId
         }
 
-        await ContractUsModel.findByIdAndUpdate(id, newContact, { new: true });
+        await ContractUsModel.findByIdAndUpdate(id, newContract, { new: true });
         res.status(201).json({newContract});
     } catch (error) {
 
