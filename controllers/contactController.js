@@ -43,7 +43,7 @@ const CreateContact = async (req,res) => {
             userId
         });
         const savecontact = await NewContact.save();
-        console.log(savecontact);
+        // console.log(savecontact);
         
         return res.status(201).json({contact : savecontact,Message: "Form submitted successfully."});
     } catch (error) {
