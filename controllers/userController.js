@@ -34,7 +34,7 @@ const signup = async (req, res) => {
             return res.status(Status.validation).json({ Message: "Password is required" });
         }
         if (trimmedpassword.length < 8 || trimmedpassword.length > 17) {
-            return res.status(Status.validation).json({ Message: "Password must be 8 to 16 characters"})
+            return res.status(Status.validation).json({ Message: "Password must be 8 to 16 characters" })
         }
 
         // Existing user check
@@ -68,7 +68,14 @@ const signup = async (req, res) => {
 
     }
 };
-
+const verifyToken = (token) => {
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);  // This checks the expiration date as well
+        return decoded;
+    } catch (err) {
+        return null;  // Token is invalid or expired
+    }
+};
 const signin = async (req, res) => {
     const { email, password } = req.body;
     const Status = StatusCode();
@@ -78,7 +85,7 @@ const signin = async (req, res) => {
         if (!existingUser) {
             return res.status(Status.validation).json({ Message: "User not found" });
         }
-        
+
         emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!email.match(emailpattern)) {
             return res.status(404).json({ Message: "Please enter valid email" });
@@ -94,7 +101,11 @@ const signin = async (req, res) => {
         // }
 
         // Geneerate token
-        const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY);
+        const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY, { expiresIn: '1d' });
+        const decoded = verifyToken(token);
+        if (!decoded) {
+            return res.status(401).json({ Message: "Session expired or invalid token. Please log in again." });
+        }
         // Send response
         return res.status(Status.success).json({ user: existingUser, token: token });
 
