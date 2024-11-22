@@ -10,7 +10,7 @@ const ContactUsSchema = mongoose.Schema({
         required: true,
     },
     contractyear: {
-        type: Date,
+        type: String,
         required: true,
     },
     managername: {
