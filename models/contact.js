@@ -5,7 +5,7 @@ const ContactUsSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    comapnyname: {
+    companyname: {
         type: String,
         required: true,
     },
