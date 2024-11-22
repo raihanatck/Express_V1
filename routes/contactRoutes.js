@@ -5,7 +5,7 @@ const contactRouter = express.Router();
 
 contactRouter.post("/", auth, CreateContact);
 contactRouter.get("/", auth, GetContact);
-contactRouter.delete("/:id", auth, DeleteContact);
-contactRouter.put("/:id", auth, EditContact);
+contactRouter.delete("/:contactid", auth, DeleteContact);
+contactRouter.put("/:contactid", auth, EditContact);
 
 module.exports = contactRouter;

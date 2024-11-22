@@ -2,7 +2,7 @@ const userModel = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const user = require("../models/user");
-const { default: mongoose } = require("mongoose");
+const mongoose = require('mongoose');
 const express = require("express");
 const SECRET_KEY = "CONTACTAPI";
 
@@ -53,8 +53,8 @@ const signup = async (req, res) => {
         // Token generate
         const token = jwt.sign({ email: result.email, id: result.id }, SECRET_KEY);
         // console.log("Signup token: ",token);
-        result.token = token;
-        result.save();
+        // result.token = token;
+        // result.save();
 
         // Send response
         return res.status(Status.success).json({ user: result, token: token });
