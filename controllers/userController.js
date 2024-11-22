@@ -8,9 +8,9 @@ const SECRET_KEY = "CONTACTAPI";
 
 function StatusCode() {
     return {
-        success : 200,
-        serverrr : 500,
-        validation : 404
+        success: 200,
+        serverrr: 500,
+        validation: 404
     };
 }
 
@@ -21,17 +21,20 @@ const signup = async (req, res) => {
     try {
 
         // Validation message
-        if (!username) {
+        if (!username || username.trim() === "") {
             return res.status(Status.validation).json({ Message: "Username is required" });
         }
 
         emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if(!email.match(emailpattern)){
-            return res.status(404).json({Message:"Please enter valid email"});
+        if (!email.match(emailpattern)) {
+            return res.status(404).json({ Message: "Please enter valid email" });
         }
-        
-        if(!password){
-            return res.status(Status.validation).json({Message:"Password is required"});
+
+        if (!password || password.trim() == '') {
+            return res.status(Status.validation).json({ Message: "Password is required" });
+        }
+        if (password.length <= 8) {
+            return res.status(Status.validation).json({ Message: "Password must be at least 8 characters"})
         }
 
         // Existing user check
@@ -75,10 +78,14 @@ const signin = async (req, res) => {
         if (!existingUser) {
             return res.status(Status.validation).json({ Message: "User not found" });
         }
-
+        
+        emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!email.match(emailpattern)) {
+            return res.status(404).json({ Message: "Please enter valid email" });
+        }
         // Compare password with DB
         if (existingUser.password !== password) {
-            return res.status(Status.validation).json({Message : "You have entered invalid password"})
+            return res.status(Status.validation).json({ Message: "You have entered invalid password" })
         }
 
         // if above method is not work

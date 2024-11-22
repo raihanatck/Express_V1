@@ -55,13 +55,13 @@ const EditContract = async (req, res) => {
     const { title, companyname, contractyear, managername, number, email, description } = req.body;
     try {
         const newContract = {
-            title,
-            companyname,
-            contractyear,
-            managername,
-            number,
-            email,
-            description,
+            title: title,
+            companyname: companyname,
+            contractyear: contractyear,
+            managername: managername,
+            number: number,
+            email: email,
+            description: description,
             userId: req.userId
         }
 
