@@ -1,10 +1,9 @@
 const express = require("express");
-const ContactUsModel = require("../models/contact");
+const ContractUsModel = require("../models/contract");
 const mongoose = require('mongoose');
-const contact = require("../models/contact");
 
 
-const CreateContact = async (req, res) => {
+const CreateContract = async (req, res) => {
     const userId = req.userId;
     console.log(userId);
     const { title, companyname, contractyear, managername, number, email, description } = req.body;
@@ -32,7 +31,7 @@ const CreateContact = async (req, res) => {
         }
 
 
-        const NewContact = new ContactUsModel({
+        const NewContact = new ContractUsModel({
             title,
             companyname,
             contractyear,
@@ -51,11 +50,11 @@ const CreateContact = async (req, res) => {
         return res.status(500).json({ Message: "Something went wrong" });
     }
 }
-const EditContact = async (req, res) => {
-    const id = req.params.contactid;
+const EditContract = async (req, res) => {
+    const id = req.params.contractid;
     const { title, companyname, contractyear, managername, number, email, description } = req.body;
     try {
-        const newContact = {
+        const newContract = {
             title: title,
             companyname: companyname,
             contractyear: contractyear,
@@ -66,25 +65,25 @@ const EditContact = async (req, res) => {
             userId: req.userId
         }
 
-        await ContactUsModel.findByIdAndUpdate(id, newContact, { new: true });
-        res.status(201).json({newContact});
+        await ContractUsModel.findByIdAndUpdate(id, newContact, { new: true });
+        res.status(201).json({newContract});
     } catch (error) {
 
     }
 }
-const DeleteContact = async (req, res) => {
-    const id = req.params.contactid;
+const DeleteContract = async (req, res) => {
+    const id = req.params.contractid;
     try {
-        const DelContact = await ContactUsModel.findByIdAndDelete(id);
-        res.status(201).json(DelContact);
+        const DelContract = await ContractUsModel.findByIdAndDelete(id);
+        res.status(201).json(DelContract);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ Message: "Something went wrong" });
     }
 }
-const GetContact = async (req, res) => {
+const GetContract = async (req, res) => {
     try {
-        const notes = await ContactUsModel.find({ userId: req.userId });
+        const notes = await ContractUsModel.find({ userId: req.userId });
         return res.status(201).json({ notes });
     } catch (error) {
         console.log(error);
@@ -92,4 +91,4 @@ const GetContact = async (req, res) => {
     }
 }
 
-module.exports = { CreateContact, EditContact, DeleteContact, GetContact };
+module.exports = { CreateContract, EditContract, DeleteContract, GetContract };

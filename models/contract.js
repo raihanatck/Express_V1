@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ContactUsSchema = mongoose.Schema({
+const ContractUsSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -36,4 +36,4 @@ const ContactUsSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("ContactUs",ContactUsSchema);
+module.exports = mongoose.model("Contract",ContractUsSchema);

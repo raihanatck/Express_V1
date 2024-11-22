@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 const userRouter = require("./routes/userRoutes");
-const contactRouter = require("./routes/contactRoutes");
+const contactRouter = require("./routes/contractRoutes");
 const mongoose = require("mongoose");
 
 
@@ -13,7 +13,7 @@ app.use((req,res,next)=>{
     next();
 })
 app.use("/users", userRouter);
-app.use("/contact", contactRouter);
+app.use("/contract", contactRouter);
 
 
 
