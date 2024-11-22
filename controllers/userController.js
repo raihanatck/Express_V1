@@ -33,8 +33,8 @@ const signup = async (req, res) => {
         if (!password || password.trim() == '') {
             return res.status(Status.validation).json({ Message: "Password is required" });
         }
-        if (password.length <= 8) {
-            return res.status(Status.validation).json({ Message: "Password must be at least 8 characters"})
+        if (password.trim().length < 8 || password.trim().length > 17) {
+            return res.status(Status.validation).json({ Message: "Password must be 8 to 16 characters"})
         }
 
         // Existing user check
