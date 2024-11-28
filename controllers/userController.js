@@ -68,6 +68,7 @@ const signup = async (req, res) => {
 
     }
 };
+
 const verifyToken = (token) => {
     try {
         const decoded = jwt.verify(token, SECRET_KEY);  // This checks the expiration date as well
@@ -76,6 +77,7 @@ const verifyToken = (token) => {
         return null;  // Token is invalid or expired
     }
 };
+
 const signin = async (req, res) => {
     const { email, password } = req.body;
     const Status = StatusCode();
@@ -104,7 +106,7 @@ const signin = async (req, res) => {
         const token = jwt.sign({ email: existingUser.email, id: existingUser.id }, SECRET_KEY, { expiresIn: '1d' });
         const decoded = verifyToken(token);
         if (!decoded) {
-            return res.status(401).json({ Message: "Session expired or invalid token. Please log in again." });
+            return res.status(401).json({ Message: "Session expired or invalid token. Please login again." });
         }
         // Send response
         return res.status(Status.success).json({ user: existingUser, token: token });
